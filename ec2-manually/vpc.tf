@@ -13,7 +13,7 @@ resource "aws_subnet" "private" {
 resource "aws_subnet" "public" {
   vpc_id = aws_vpc.main.id
   map_public_ip_on_launch = true
-  availability_zone = "us-east-1"
+  availability_zone = "us-east-1a"
 }
 
 resource "aws_internet_gateway" "gateway" {

@@ -1,6 +1,6 @@
 variable "aws_region" {
     type = string
-    default = "us-east-1"
+    default = "us-east-1a"
 }
 
 variable "aws_instance_type" {
