@@ -13,10 +13,10 @@ variable "aws_vpc_public" {
     default = "10.0.2.0/24"  
 }
 
-variable "aws_vpc_private" {
-    type = string
-    default = "10.0.1.0/24"
-}
+# variable "aws_vpc_private" {
+#     type = string
+#     default = "10.0.1.0/24"
+# }
 
 variable "aws_vpc" {
     type = string

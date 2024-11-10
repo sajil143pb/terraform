@@ -4,25 +4,26 @@ resource "aws_vpc" "main" {
   enable_dns_support = true
 }
 
-resource "aws_subnet" "private" {
-  vpc_id = aws_vpc.main.id
-  cidr_block = var.aws_vpc_private
+# resource "aws_subnet" "private" {
+#   vpc_id = aws_vpc.main.id
+#   cidr_block = var.aws_vpc_private
 
-}
+# }
 
 resource "aws_subnet" "public" {
   vpc_id = aws_vpc.main.id
   map_public_ip_on_launch = true
   availability_zone = "us-east-1a"
+  cidr_block = var.aws_vpc_public
 }
 
 resource "aws_internet_gateway" "gateway" {
   vpc_id = aws_vpc.main.id
 }
 
-resource "aws_nat_gateway" "natgateway" {
- subnet_id = var.aws_vpc_private
-}
+# resource "aws_nat_gateway" "natgateway" {
+#  subnet_id = var.aws_vpc_private
+# }
 
 resource "aws_route_table" "routetable" {
     vpc_id = aws_vpc.main.id
