@@ -33,6 +33,6 @@ resource "aws_route_table" "routetable" {
 }
 
 resource "aws_route_table_association" "routetable" {
-  route_table_id = aws_route.routetable
+  route_table_id = aws_route_table.routetable
 }
 
