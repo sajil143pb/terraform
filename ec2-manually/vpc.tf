@@ -16,7 +16,7 @@ resource "aws_subnet" "public" {
 }
 
 resource "aws_internet_gateway" "gateway" {
-  vpc_id = aws_vpc.main
+  vpc_id = aws_vpc.main.id
 }
 
 resource "aws_nat_gateway" "natgateway" {
@@ -28,11 +28,11 @@ resource "aws_route_table" "routetable" {
 
     route {
         cidr_block = "0.0.0.0/0"
-        gateway_id = aws_internet_gateway.gateway
+        gateway_id = aws_internet_gateway.gateway.id
     }
 }
 
 resource "aws_route_table_association" "routetable" {
-  route_table_id = aws_route_table.routetable
+  route_table_id = aws_route_table.routetable.id
 }
 
