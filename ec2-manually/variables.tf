@@ -10,12 +10,12 @@ variable "aws_instance_type" {
 
 variable "aws_vpc_public" {
     type = string
-    default = "10.0.0.0/24"  
+    default = "10.0.2.0/24"  
 }
 
 variable "aws_vpc_private" {
     type = string
-    default = "10.0.0.1/24"
+    default = "10.0.1.0/24"
 }
 
 variable "aws_vpc" {
