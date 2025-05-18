@@ -1,5 +1,6 @@
 # Local .terraform directories
 **/.terraform/*
+.terraform.lock.*
 
 # .tfstate files
 *.tfstate
@@ -7,6 +8,7 @@
 
 # pem file
 *.pem
+*.pub
 
 # Crash log files
 crash.log

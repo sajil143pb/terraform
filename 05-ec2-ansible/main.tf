@@ -1,22 +1,56 @@
-variables "instance_type" {
-    description = "instance type"
-    # type = map(string)
+resource "null_resource" "copy_key_pair" {
+    depends_on = [ module.ec2_ansible_master ]
 
-    # default = {
-    #     "dev" "t2.micro"
+    # triggers = {
+    # always_run = timestamp()
     # }
+    connection {
+        type = "ssh"
+        user = "ec2-user"
+        private_key = file("ansible.pem")
+        host = module.ec2_ansible_master.public_ips[0]
+    }
+    provisioner "file" {
+        source = "./ansible.pem"
+        destination = "./ansible.pem"
+    }
+    provisioner "file" {
+        source = "./inventory.txt"
+        destination = "./inventory.txt"
+    }
+    provisioner "remote-exec" {
+        inline = [ 
+            "sudo chmod 400 ansible.pem",
+            "sudo yum update -y",
+            "sudo yum install -y ansible"
+         ]
+    }
 }
 
-variables "aws_ami"{
-    description = "ami id"
-    default = "ami-0953476d60561c955"
+resource "local_file" "inventory" {
+  content  = templatefile("${path.module}/inventory.tpl", { ips = module.ec2_ansible_slave.public_ips })
+  filename = "${path.module}/inventory.txt"
 }
 
-module "ec2"{
+module "ec2_ansible_master" {
     source ="./ec2module"
-    instance_type = var.instance_type
-    ami = var.aws_ami
-    
-    userdata = 
+    aws_instnace_type = var.aws_instnace_type
+    aws_ami = var.aws_ami
+    instance_name = var.instance_name["ec2-ansible-master"]
+    key_name = var.aws_key
+    instance_count =  var.ec2_ansible_count["master"]
+
 }
+
+module "ec2_ansible_slave" {
+    source ="./ec2module"
+    aws_instnace_type = var.aws_instnace_type
+    aws_ami = var.aws_ami
+    instance_count = var.ec2_ansible_count["slave"]
+    instance_name = var.instance_name["ec2-ansible-slave"]
+    key_name = var.aws_key
+}
+
+
+
 
