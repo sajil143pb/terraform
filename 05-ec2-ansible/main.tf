@@ -1,9 +1,6 @@
 resource "null_resource" "copy_key_pair" {
     depends_on = [ module.ec2_ansible_master ]
 
-    # triggers = {
-    # always_run = timestamp()
-    # }
     connection {
         type = "ssh"
         user = "ec2-user"
@@ -32,6 +29,18 @@ resource "local_file" "inventory" {
   filename = "${path.module}/inventory.txt"
 }
 
+module "ec2_VPC"{
+    source = "./VPC"
+    aws_cidr_block = var.aws_cidr_block
+    aws_private_subnet = var.aws_private_subnet
+    aws_public_subnet = var.aws_public_subnet
+}
+
+module "vpc_security_group_ids" {
+    source = "./securitygroups"
+    VPCID = module.ec2_VPC.vpc_id
+}
+
 module "ec2_ansible_master" {
     source ="./ec2module"
     aws_instnace_type = var.aws_instnace_type
@@ -39,6 +48,8 @@ module "ec2_ansible_master" {
     instance_name = var.instance_name["ec2-ansible-master"]
     key_name = var.aws_key
     instance_count =  var.ec2_ansible_count["master"]
+    publicsubnet  = module.ec2_VPC.public_subnets 
+    securitygroups = module.vpc_security_group_ids.securitygrpid
 
 }
 
@@ -49,6 +60,8 @@ module "ec2_ansible_slave" {
     instance_count = var.ec2_ansible_count["slave"]
     instance_name = var.instance_name["ec2-ansible-slave"]
     key_name = var.aws_key
+    securitygroups = module.vpc_security_group_ids.securitygrpid
+    publicsubnet  = module.ec2_VPC.public_subnets
 }
 
 
