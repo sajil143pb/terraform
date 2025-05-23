@@ -1,5 +1,6 @@
-variable "aws_instnace_type" {
-    description = "instance type"
+variable "aws_instance_type"{
+    description = "Contains aws instnace type"
+
 }
 
 variable "aws_ami"{

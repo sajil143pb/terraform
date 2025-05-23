@@ -5,8 +5,10 @@ variable "aws_ami" {
 variable "instance_name" {
     description = "Conatins ami id"
 }
-variable "aws_instnace_type"{
+
+variable "aws_instance_type"{
     description = "Contains aws instnace type"
+
 }
 
 variable "key_name"{

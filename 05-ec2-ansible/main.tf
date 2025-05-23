@@ -43,7 +43,7 @@ module "vpc_security_group_ids" {
 
 module "ec2_ansible_master" {
     source ="./ec2module"
-    aws_instnace_type = var.aws_instnace_type
+    aws_instance_type = var.aws_instance_type
     aws_ami = var.aws_ami
     instance_name = var.instance_name["ec2-ansible-master"]
     key_name = var.aws_key
@@ -55,7 +55,7 @@ module "ec2_ansible_master" {
 
 module "ec2_ansible_slave" {
     source ="./ec2module"
-    aws_instnace_type = var.aws_instnace_type
+    aws_instance_type = var.aws_instance_type
     aws_ami = var.aws_ami
     instance_count = var.ec2_ansible_count["slave"]
     instance_name = var.instance_name["ec2-ansible-slave"]
